@@ -4,10 +4,39 @@
     height="300"
     width="100%"
   >
-    Publications
+    <v-sheet
+      color="#00000000"
+      width="400"
+      class="pa-3 mx-auto"
+      style="backdrop-filter: blur(8px); color: white"
+      >Publications</v-sheet
+    >
   </v-sheet>
 
-  <v-container>
+  <div class="text-center mt-16">
+    <v-text-field
+      style="display: inline-table; width: 60%"
+      label="Search Publications"
+      hide-details="auto"
+      variant="outlined"
+      v-model="userSearchContent"
+      @input="search"
+    ></v-text-field>
+
+    <v-select
+      style="display: inline-table; width: 20%"
+      label="Categories"
+      variant="outlined"
+      :items="articleCategories"
+      v-model="userSelectedCategory"
+      @click="searchtest"
+      multiple
+      chips
+    >
+    </v-select>
+  </div>
+
+  <v-container v-if="showFeatured">
     <v-row>
       <v-sheet class="mx-auto mb-5" width="100%">
         <p class="text-h5 my-15 font-weight-bold">Featured articles</p>
@@ -59,9 +88,17 @@
       </v-sheet>
     </v-row>
   </v-container>
+
+  <ProjectsTable
+    v-else
+    :projects="content"
+    :articleSection="tableHeader"
+  ></ProjectsTable>
 </template>
 
 <script>
+import ProjectsTable from "../components/ProjectsTable.vue";
+
 export default {
   methods: {
     isOdd(index) {
@@ -71,10 +108,48 @@ export default {
         return true;
       }
     },
+    async search() {
+      if (this.userSearchContent) {
+        const reqContent = await useBaseFetch("/list/published", {
+          method: "GET",
+          query: {
+            length: 5,
+            contains_content: this.userSearchContent,
+            content_match_quality_limit: 0.2,
+          },
+        });
+        this.tableHeader = `Search Results For ${this.userSearchContent}`;
+        this.content = toRaw(reqContent.data.value);
+        this.showFeatured = false;
+      } else {
+        this.showFeatured = true;
+      }
+    },
+
+    searchtest() {
+      console.log(toRaw(this.userSelectedCategory));
+    },
   },
 
   data() {
     return {
+      showFeatured: true,
+      articleCategories: [
+        { title: "Biology", value: "Biology" },
+        { title: "Chemistry", value: "Chemistry" },
+        { title: "Physics", value: "Physics" },
+        { title: "Mathematics", value: "Mathematics" },
+        { title: "Computing", value: "Computing" },
+        { title: "Engineering", value: "Engineering" },
+      ],
+      // User Inputs
+      userSearchContent: null,
+      userSelectedCategory: null,
+
+      // Dynamic Content
+      tableHeader: "",
+      content: [],
+
       featured: [
         {
           section: "Biology",
@@ -94,6 +169,9 @@ export default {
         },
       ],
     };
+  },
+  components: {
+    ProjectsTable,
   },
 };
 </script>
