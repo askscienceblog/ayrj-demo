@@ -1,22 +1,19 @@
 <template>
-  <v-sheet
-    class="text-center text-h3 page-title font-weight-bold background"
-    height="300"
-    width="100%"
-  >
+  <div style="position: relative; text-align: center; color: white">
     <v-sheet
-      color="#00000000"
-      width="400"
-      class="pa-3 mx-auto"
-      style="backdrop-filter: blur(8px); color: white"
-      >Publications</v-sheet
+      class="background"
+      height="300"
+      width="100%"
+      style="filter: blur(4px); color: white"
     >
-  </v-sheet>
+    </v-sheet>
+    <p class="text-h3 font-weight-bold page-title">Publications</p>
+  </div>
 
   <div class="text-center mt-16">
     <v-text-field
       style="display: inline-table; width: 60%"
-      label="Search Publications"
+      label="Search Publications by Name, UEN, Authors etc"
       hide-details="auto"
       variant="outlined"
       v-model="userSearchContent"
@@ -29,7 +26,6 @@
       variant="outlined"
       :items="articleCategories"
       v-model="userSelectedCategory"
-      @click="searchtest"
       multiple
       chips
     >
@@ -56,7 +52,13 @@
                 <p class="text-wrap text-subtitle-1 my-5">
                   {{ article.subtitle }}
                 </p>
-                <v-btn variant="elevated" color="black"> Read More! </v-btn>
+                <v-btn
+                  variant="elevated"
+                  color="black"
+                  :to="`/articles/${article.id}`"
+                >
+                  Read More!
+                </v-btn>
               </v-card>
 
               <v-sheet v-else width="100%" class="my-10 mx-10" height="100%"
@@ -80,7 +82,13 @@
                 <p class="text-wrap text-subtitle-1 my-5">
                   {{ article.subtitle }}
                 </p>
-                <v-btn variant="elevated" color="black"> Read More! </v-btn>
+                <v-btn
+                  variant="elevated"
+                  color="black"
+                  :to="`/articles/${article.id}`"
+                >
+                  Read More!
+                </v-btn>
               </v-card>
             </v-col>
           </v-row>
@@ -92,7 +100,7 @@
   <ProjectsTable
     v-else
     :projects="content"
-    :articleSection="tableHeader"
+    :articleSection="tableHeaderString"
   ></ProjectsTable>
 </template>
 
@@ -109,25 +117,26 @@ export default {
       }
     },
     async search() {
+      const reqContent = await useBaseFetch("/list/published", {
+        method: "GET",
+        query: {
+          length: 5,
+          contains_content: this.userSearchContent,
+          content_match_quality_limit: 0.2,
+        },
+      });
       if (this.userSearchContent) {
-        const reqContent = await useBaseFetch("/list/published", {
-          method: "GET",
-          query: {
-            length: 5,
-            contains_content: this.userSearchContent,
-            content_match_quality_limit: 0.2,
-          },
-        });
-        this.tableHeader = `Search Results For ${this.userSearchContent}`;
         this.content = toRaw(reqContent.data.value);
         this.showFeatured = false;
       } else {
         this.showFeatured = true;
       }
     },
+  },
 
-    searchtest() {
-      console.log(toRaw(this.userSelectedCategory));
+  computed: {
+    tableHeaderString() {
+      return `Search Results for \"${this.userSearchContent}\"`;
     },
   },
 
@@ -147,7 +156,6 @@ export default {
       userSelectedCategory: null,
 
       // Dynamic Content
-      tableHeader: "",
       content: [],
 
       featured: [
@@ -158,6 +166,7 @@ export default {
           subtitle:
             "M. abscessus is a rising global clinical issue due to their inherent ability to gain resistance to antibiotics and thus difficult in treating patients, it is also pervasive in the environment, making human-pathogen contact a frequent occurrence. This study uses phages (bacteria infecting viruses) to treat these infections.",
           img: "../public/imgs/featured/phage.jpeg",
+          id: "123",
         },
         {
           section: "Biology",
@@ -166,6 +175,7 @@ export default {
           subtitle:
             "M. abscessus is a rising global clinical issue due to their inherent ability to gain resistance to antibiotics and thus difficult in treating patients, it is also pervasive in the environment, making human-pathogen contact a frequent occurrence. This study uses phages (bacteria infecting viruses) to treat these infections.",
           img: "../public/imgs/featured/phage.jpeg",
+          id: "123",
         },
       ],
     };
@@ -183,7 +193,11 @@ export default {
 }
 
 .page-title {
-  padding-top: 120px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   color: white;
 }
 
