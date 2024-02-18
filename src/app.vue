@@ -2,7 +2,7 @@
   <v-app>
     <page-header v-if="render" :device="device"></page-header>
     <v-main>
-      <NuxtPage v-if="render" :device="device"></NuxtPage>
+      <NuxtPage v-if="render" :device="device" :width="width"></NuxtPage>
     </v-main>
     <page-footer v-if="render" :device="device"></page-footer>
   </v-app>
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     findDevice(width) {
-      if (1100 >= width > 0) {
+      if (1400 >= width > 0) {
         return "s";
       } else {
         return "l";
@@ -29,7 +29,8 @@ export default {
 
     resizeEvent() {
       this.render = false;
-      this.device = this.findDevice(window.innerWidth);
+      this.device = this.findDevice(window.outerWidth);
+      this.width = window.outerWidth;
       this.render = true;
     },
   },
@@ -42,7 +43,8 @@ export default {
         return "l";
       }
     };
-    this.device = findDevice(window.innerWidth);
+    this.device = findDevice(window.outerWidth);
+    this.width = window.outerWidth;
     this.render = true;
   },
 

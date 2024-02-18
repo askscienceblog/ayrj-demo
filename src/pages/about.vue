@@ -14,45 +14,106 @@
     <p class="text-h3 font-weight-bold page-title">About AYRJ</p>
   </div>
 
-  <div class="mx-auto pb-4" style="max-width: 1000px">
-    <p class="text-h4 mt-16 font-weight-bold text-center">
-      Established in 2023!
-    </p>
+  <!-- Our mision -->
+  <v-sheet
+    color="#eeeeeeee"
+    width="100%"
+    height="auto"
+    class="py-16 d-flex text-center justify-center"
+    v-if="device === 'l'"
+  >
+    <v-sheet class="mt-2" min-width="200" max-width="200" color="#00000000">
+      <p class="text-h1">{{ noOfArticles }}</p>
+      <p class="text-h6 mx-n13 pa-3">Articles Published</p>
+    </v-sheet>
 
-    <p class="text-h6 text-wrap text-center font-weight-bold mt-16">
+    <v-divider
+      vertical
+      :thickness="4"
+      class="border-opacity-100 mx-6"
+    ></v-divider>
+
+    <v-sheet
+      class="mx-3 ml-10"
+      min-width="200"
+      max-width="200"
+      color="#00000000"
+    >
+      <p class="text-h4 custom-bold">Mission</p>
+      <p class="my-5">
+        Provide a platform for Young Scientists to make meaningful contributions
+        towards the development of science
+      </p>
+    </v-sheet>
+
+    <v-sheet class="mx-3" min-width="200" max-width="200" color="#00000000">
+      <p class="text-h4 custom-bold">Vision</p>
+      <p class="my-5">To become the leading journal for Young Scientists</p>
+    </v-sheet>
+
+    <v-sheet class="mx-3" min-width="200" max-width="200" color="#00000000">
+      <p class="text-h4 custom-bold">Values</p>
+      <v-sheet
+        color="#00000000"
+        class="mt-3 ml-2 text-left"
+        height="auto"
+        width="180"
+      >
+        <v-chip variant="text">
+          <v-icon class="pa-4">mdi-play</v-icon>
+          <p>Integrity above all</p>
+        </v-chip>
+
+        <v-chip variant="text">
+          <v-icon class="pa-4">mdi-play</v-icon>
+          <p>Never give up</p>
+        </v-chip>
+
+        <v-chip variant="text">
+          <v-icon class="pa-4">mdi-play</v-icon>
+          <p>Quality of work</p>
+        </v-chip>
+      </v-sheet>
+    </v-sheet>
+  </v-sheet>
+  <!-- Description -->
+  <div class="mx-auto pb-3 px-10" style="max-width: 1000px">
+    <p class="text-h6 text-wrap text-justify font-weight-bold mt-16">
       ASEAN Young Researchers’ Journal aims to provide a platform for Young
       Researchers in the region to showcase their findings. We hope to provide a
-      safe environment for holistic development and impactful interactions with
+      safe environment for holistic development and interactions with
       like-minded peers.
     </p>
-    <p class="text-wrap my-8 text-center">
+    <p class="text-wrap my-8 text-justify">
       We are a volunteer run project and am not related or affiliated with
       Ministry of Education, Singapore Science Centre or the Association of
       Southeast Asian Nations.
     </p>
-    <p class="text-wrap text-center">
+    <p class="text-wrap text-left">
       We look forward to recieving your manuscripts.
     </p>
-    <p class="text-h6 text-center font-weight-bold my-16">- Jamie & Team</p>
+    <p class="text-h6 text-center font-weight-bold my-16">- AYRJ Volunteers</p>
   </div>
 
   <v-divider horizontal class="border-opacity-100" thickness="3"></v-divider>
   <div
-    class="text-h3 text-center mx-auto"
+    class="text-h4 text-center mx-auto"
     width="300"
-    style="margin-block: 80px"
+    style="margin-block: 50px"
   >
     Our Team
   </div>
   <v-divider horizontal class="border-opacity-100" thickness="3"></v-divider>
+  <v-tabs v-model="tab" align-tabs="center" class="my-5">
+    <v-tab value="0">Journal Board</v-tab>
+    <v-tab value="1">Editorial Board</v-tab>
+    <v-tab value="2">Science Communication</v-tab>
+    <v-tab value="3">Admin</v-tab>
+  </v-tabs>
 
-  <v-card
-    v-for="team in ourTeam"
-    class="my-10 mx-16 text-center"
-    variant="text"
-  >
+  <v-card class="my-10 mx-16 text-center" variant="text">
     <p
-      class="text-h5 mt-10 mb-5 mx-auto"
+      class="text-h5 mt-5 mb-5 mx-auto"
       style="
         width: fit-content;
         padding-inline: 50px;
@@ -80,53 +141,6 @@
       ></v-divider>
     </div>
   </v-card>
-
-  <v-sheet
-    color="#eeeeeeee"
-    width="100%"
-    height="auto"
-    class="py-16 d-flex text-center justify-center"
-  >
-    <v-sheet class="mt-2" min-width="200" max-width="200" color="#00000000">
-      <p class="text-h1">{{ noOfArticles }}</p>
-      <p class="text-h6 mx-n13 pa-3">Articles Published</p>
-    </v-sheet>
-
-    <v-divider
-      vertical
-      :thickness="4"
-      class="border-opacity-100 mx-6"
-    ></v-divider>
-    <v-sheet
-      class="mx-3 ml-10"
-      min-width="200"
-      max-width="200"
-      color="#00000000"
-    >
-      <p class="text-h4 custom-bold">{{ goals[0].title }}</p>
-      <p class="my-5">{{ goals[0].subtitle }}</p>
-    </v-sheet>
-
-    <v-sheet class="mx-3" min-width="200" max-width="200" color="#00000000">
-      <p class="text-h4 custom-bold">{{ goals[1].title }}</p>
-      <p class="my-5">{{ goals[1].subtitle }}</p>
-    </v-sheet>
-
-    <v-sheet class="mx-3" min-width="200" max-width="200" color="#00000000">
-      <p class="text-h4 custom-bold">{{ goals[2].title }}</p>
-      <v-sheet
-        color="#00000000"
-        class="mt-3 ml-2 text-left"
-        height="auto"
-        width="180"
-      >
-        <v-chip variant="text" v-for="(value, index) in goals[2].subtitle">
-          <v-icon class="pa-4">mdi-play</v-icon>
-          <p>{{ value }}</p>
-        </v-chip>
-      </v-sheet>
-    </v-sheet>
-  </v-sheet>
 
   <v-sheet>
     <v-container>
@@ -158,13 +172,20 @@ import NameCard from "../components/NameCard.vue";
 
 export default {
   components: { NameCard },
+  watch: {
+    tab(newValue, oldValue) {
+      this.tab = newValue;
+    },
+  },
   computed: {
     device() {
       return useAttrs().device;
     },
-
+    team() {
+      return this.ourTeam.at(this.tab);
+    },
     ourTeam() {
-      let team = [
+      return [
         {
           committee: "Journal Board",
           description:
@@ -210,7 +231,6 @@ export default {
           }),
         },
       ];
-      return team;
     },
   },
 
@@ -219,13 +239,14 @@ export default {
   data() {
     return {
       noOfArticles: 3,
+      tab: 0,
 
       ourMembers: [
         {
           name: "Jamie Wen",
           title: "Founder | Chief Editor",
           committees: ["Board", "Editorial"],
-          pic: "",
+          pic: "/members/jamie.jpg",
           email: "",
           intro:
             "It has been my dream to make research more equitable. AYRJ is a tangible initiative that empowers young researchers to showcase their findings. Come join us to push the boundaries of research!",
@@ -240,7 +261,7 @@ export default {
           committees: ["Board", "Editorial"],
           pic: "",
           email: "",
-          intro: "Researcher",
+          intro: "",
           links: {
             linkedIn: "",
             github: "",
@@ -250,7 +271,7 @@ export default {
           name: "Jeremy Tan",
           title: "Administrative Director",
           committees: ["Board", "Admin"],
-          pic: "",
+          pic: "/members/jeremy.jpg",
           email: "",
           intro:
             '"You aren\'t afraid of failing, you are just afraid of what people think of you if you fail" ~Someone. ',
@@ -263,7 +284,7 @@ export default {
           name: "Nicole",
           title: "Communications Director",
           committees: ["Board", "Comms"],
-          pic: "",
+          pic: "/members/nicole.jpg",
           email: "",
           intro:
             "Everyone should have the opportunity to engage with science without barriers! I look forward to connecting with passionate youth scientists and working with AYRJ to make research more accessible.",
@@ -276,7 +297,7 @@ export default {
           name: "Harry Cheong",
           title: "Frontend Developer",
           committees: ["Board"],
-          pic: "",
+          pic: "/members/harry.jpg",
           email: "",
           intro:
             "I love putting fluffy balls within lines, software development and cool ideas.",
@@ -289,7 +310,7 @@ export default {
           name: "Wang Chen",
           title: "Backend Developer | Editorial Board",
           committees: ["Board", "Editorial"],
-          pic: "",
+          pic: "/members/wang chen.jpg",
           email: "",
           intro:
             "AYRJ is the platform I wish I had as a student. Now, I am glad to do what I can to help other young researchers with their first publications.",
@@ -302,7 +323,7 @@ export default {
           name: "Daisy",
           title: "Editorial Board",
           committees: ["Editorial"],
-          pic: "",
+          pic: "/members/daisy.jpg",
           email: "",
           intro:
             "AYRJ would serve as a great platform to expose young scientists and students to the world of research. “It says Oooooo.” -Peter Griffin.",
@@ -315,7 +336,7 @@ export default {
           name: "Ze Dong",
           title: "Editorial Board",
           committees: ["Editorial"],
-          pic: "",
+          pic: "/members/ze dong.jpg",
           email: "",
           intro:
             "Hi, I'm Ze Dong, part of AYRJ's editorial board. I believe that AYRJ can help encourage youths to take part in valuable research experiences!",
@@ -328,7 +349,7 @@ export default {
           name: "Valerie",
           title: "Social Media Manager",
           committees: ["Comms"],
-          pic: "",
+          pic: "/members/valerie.jpg",
           email: "",
           intro:
             "\“Science knows no country, because knowledge belongs to humanity\” — Louis Pasteur. Join our AYRJ family by sharing your research findings with young scientists across the ASEAN region!",
@@ -338,10 +359,10 @@ export default {
           },
         },
         {
-          name: "Erm Min",
+          name: "Ern Min",
           title: "Social Media Manager",
           committees: ["Comms"],
-          pic: "",
+          pic: "/members/ern min.jpg",
           email: "",
           intro:
             "An enthusiastic and passionate science student with a keen interest in research who looks forward in bringing scientific works of students together",
@@ -354,7 +375,7 @@ export default {
           name: "Ru Ting",
           title: "Publicity Manager",
           committees: ["Comms"],
-          pic: "",
+          pic: "/members/ru ting.jpg",
           email: "",
           intro:
             "I hope that I can contribute meaningfully to AYRJ although I am not very good at science haha",
@@ -367,7 +388,7 @@ export default {
           name: "Li Xuan",
           title: "Publicity Manager",
           committees: ["Comms"],
-          pic: "",
+          pic: "/members/li xuan.jpg",
           email: "",
           intro: "eucalyptus, eu kaluptos, kaluptein",
           links: {
@@ -402,21 +423,7 @@ export default {
           },
         },
       ],
-      goals: [
-        {
-          title: "Mission",
-          subtitle:
-            "Provide a platform for Young Scientists to make meaningful contributions towards the development of science",
-        },
-        {
-          title: "Vision",
-          subtitle: "To become the leading journal for Young Scientists",
-        },
-        {
-          title: "Values",
-          subtitle: ["Integrity above all", "Never give up", "Quality of work"],
-        },
-      ],
+
       faqs: [
         {
           question: "How do you sustain this website?",
@@ -464,7 +471,7 @@ export default {
   height: 200px;
   z-index: 0;
 
-  background-image: url("/public/imgs/background/pipette.jpeg");
+  background-image: url("/public/background/pipette.jpeg");
   background-repeat: no-repeat;
   transition: background-size 4s ease;
   background-position: center center;

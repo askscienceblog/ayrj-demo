@@ -33,74 +33,83 @@
     >
     </v-select>
   </div>
+  <v-sheet
+    class="mx-auto mb-10"
+    width="80%"
+    v-if="showFeatured"
+    style="position: relative"
+  >
+    <p class="text-h5 mt-3 mb-8 font-weight-bold">Featured articles</p>
+    <v-divider class="border-opacity-100" thickness="3"></v-divider>
+  </v-sheet>
 
-  <v-container v-if="showFeatured">
-    <v-row>
-      <v-sheet class="mx-auto mb-5" width="100%">
-        <p class="text-h5 my-15 font-weight-bold">Featured articles</p>
-        <v-sheet color="black" height="2" class="mt-n6"></v-sheet>
-      </v-sheet>
-    </v-row>
+  <div v-if="showFeatured && device === 's'">
+    <v-sheet v-for="(article, index) in featured">
+      <div class="my-16">
+        <v-card class="s-featured-card" variant="flat" style="">
+          <p class="text-wrap text-h5 font-weight-bold">
+            {{ article.title }}
+          </p>
+          <p class="text-wrap text-justify text-subtitle-1 my-5">
+            {{ article.subtitle }}
+          </p>
+          <v-btn
+            variant="elevated"
+            color="black"
+            :to="`/publications/${article.id}`"
+          >
+            Read More!
+          </v-btn>
+        </v-card>
 
-    <v-row>
-      <v-sheet width="100%" class="my-16" v-for="(article, index) in featured">
-        <v-container>
-          <v-row>
-            <v-col>
-              <v-card v-if="!isOdd(index)" class="text-left" variant="flat">
-                <p class="text-wrap text-h4 font-weight-medium">
-                  {{ article.title }}
-                </p>
-                <p class="text-wrap text-subtitle-1 my-5">
-                  {{ article.subtitle }}
-                </p>
-                <v-btn
-                  variant="elevated"
-                  color="black"
-                  :to="`/publications/${article.id}`"
-                >
-                  Read More!
-                </v-btn>
-              </v-card>
+        <img
+          class="s-featured-image"
+          :src="article.img"
+          style="display: inline-block"
+        />
 
-              <v-sheet v-else width="100%" class="my-10 mx-10" height="100%"
-                ><NuxtImg class="featured-image" :src="article.img"></NuxtImg>
-              </v-sheet>
-            </v-col>
+        <v-divider
+          width="80%"
+          class="mx-auto my-10 border-opacity-100"
+        ></v-divider>
+      </div>
+    </v-sheet>
+  </div>
 
-            <v-col color="black">
-              <v-sheet
-                v-if="!isOdd(index)"
-                width="100%"
-                class="my-10 mx-10"
-                height="100%"
-                ><NuxtImg class="featured-image" :src="article.img"></NuxtImg>
-              </v-sheet>
+  <div v-if="showFeatured && device == 'l'">
+    <v-container>
+      <v-row v-for="(article, index) in featured">
+        <v-col>
+          <v-card variant="flat" style="">
+            <p class="text-wrap text-h4 font-weight-medium">
+              {{ article.title }}
+            </p>
+            <p class="text-wrap text-subtitle-1 my-5">
+              {{ article.subtitle }}
+            </p>
+            <v-btn
+              variant="elevated"
+              color="black"
+              :to="`/publications/${article.id}`"
+            >
+              Read More!
+            </v-btn>
+          </v-card>
+        </v-col>
 
-              <v-card v-else class="text-left span-a" variant="flat">
-                <p class="text-wrap text-h4 font-weight-medium">
-                  {{ article.title }}
-                </p>
-                <p class="text-wrap text-subtitle-1 my-5">
-                  {{ article.subtitle }}
-                </p>
-                <v-btn
-                  variant="elevated"
-                  color="black"
-                  :to="`/publications/${article.id}`"
-                >
-                  Read More!
-                </v-btn>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-sheet>
-    </v-row>
-  </v-container>
+        <v-col>
+          <img class="s-featured-image" :src="article.img" />
+        </v-col>
 
+        <v-divider
+          width="80%"
+          class="mx-auto my-16 border-opacity-100"
+        ></v-divider>
+      </v-row>
+    </v-container>
+  </div>
   <ProjectsTable
-    v-else
+    v-if="!showFeatured"
     :projects="content"
     :articleSection="tableHeaderString"
   ></ProjectsTable>
@@ -145,9 +154,10 @@ export default {
     device() {
       return useAttrs().device;
     },
-  },
-  mounted() {
-    console.log(useAttrs().device);
+    width() {
+      console.log(useAttrs().width);
+      return useAttrs().width;
+    },
   },
   data() {
     return {
@@ -174,7 +184,7 @@ export default {
             "Doctor bartender: phage cocktails to treat multi-drug resistant Mycobacterium abscessus",
           subtitle:
             "M. abscessus is a rising global clinical issue due to their inherent ability to gain resistance to antibiotics and thus difficult in treating patients, it is also pervasive in the environment, making human-pathogen contact a frequent occurrence. This study uses phages (bacteria infecting viruses) to treat these infections.",
-          img: "../public/imgs/featured/phage.jpeg",
+          img: "/featured/phage.jpeg",
           id: "123",
         },
         {
@@ -183,7 +193,7 @@ export default {
             "Doctor bartender: phage cocktails to treat multi-drug resistant Mycobacterium abscessus",
           subtitle:
             "M. abscessus is a rising global clinical issue due to their inherent ability to gain resistance to antibiotics and thus difficult in treating patients, it is also pervasive in the environment, making human-pathogen contact a frequent occurrence. This study uses phages (bacteria infecting viruses) to treat these infections.",
-          img: "../public/imgs/featured/phage.jpeg",
+          img: "/featured/phage.jpeg",
           id: "123",
         },
       ],
@@ -196,11 +206,22 @@ export default {
 </script>
 
 <style scoped>
-.featured-image {
-  max-height: 500px;
-  max-width: 500px;
+.s-featured-image {
+  max-width: 320px;
+
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
 }
 
+.s-featured-card {
+  width: 80%;
+
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  margin-bottom: 50px;
+}
 .page-title {
   position: absolute;
   top: 50%;
@@ -217,7 +238,7 @@ export default {
   width: 100%;
   height: 300px;
 
-  background-image: url("/public/imgs/background/incubator.jpg");
+  background-image: url("/public/background/incubator.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   transition: background-size 4s ease;

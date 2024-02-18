@@ -12,16 +12,17 @@
 
   <v-card
     v-for="download in downloads"
-    class="mx-auto my-2 d-flex align-center justify-center"
+    class="mx-auto my-5 d-flex align-center justify-center"
     height="100"
     max-width="80%"
+    elevation="3"
   >
-    <p class="text-center text-h5 font-weight-bold">
+    <p class="text-center text-h6 font-weight-bold">
       {{ download.title }}
     </p>
     <v-btn
       color="grey-darken-1"
-      class="my-auto mx-10"
+      class="my-auto mx-5"
       @click="reqDownload(download.id)"
       icon="mdi-download"
     ></v-btn>
@@ -70,7 +71,7 @@ export default {
   width: 100%;
   height: 300px;
 
-  background-image: url("/public/imgs/background/microscope.png");
+  background-image: url("/public/background/microscope.png");
   background-repeat: no-repeat;
   background-size: 100%;
   transition: background-size 4s ease;
