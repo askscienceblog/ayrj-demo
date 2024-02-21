@@ -1,27 +1,12 @@
 <template>
   <v-container v-show="pageExists && loaded" fluid>
     <v-row class="text-center">
-      <p class="font-weight-bold text-h3 pa-16 pb-5 mx-auto">
+      <p class="font-weight-bold text-h3 px-10 pt-16 pb-5 mx-auto">
         {{ article.title }}
       </p>
     </v-row>
     <v-row>
-      <div class="mx-auto">
-        <p
-          v-for="category in article.categories"
-          style="
-            display: inline-block;
-            color: #3366cc;
-            text-decoration: underline;
-          "
-          class="text-h6 mx-1"
-        >
-          {{ category }}
-        </p>
-      </div>
-    </v-row>
-    <v-row>
-      <p class="text-subtitle-1 mx-auto mb-5">
+      <p class="text-center mx-auto mb-5">
         {{ article.authors }}
       </p>
     </v-row>
@@ -33,14 +18,14 @@
       </v-btn>
     </v-row>
     <v-row>
-      <v-card width="1200" class="mx-auto my-10" variant="text">
+      <v-card width="1200" class="mx-auto my-10 px-10" variant="text">
         <p class="text-h5 my-2">Abstract</p>
         <v-divider horizontal></v-divider>
         <p class="text-wrap mt-3">{{ article.abstract }}</p>
       </v-card>
     </v-row>
     <v-row>
-      <v-card width="1200" class="mx-auto my-10" variant="text">
+      <v-card width="1200" class="mx-auto my-10 px-10" variant="text">
         <p class="text-h5 my-2">Bibliography</p>
         <v-divider horizontal></v-divider>
         <div v-for="src in article.biblio">
@@ -73,7 +58,7 @@ export default {
       if (toRaw(article.data.value)[0].id === this.$route.params.id) {
         this.pageExists = true;
         this.article = toRaw(article.data.value)[0];
-        this.article["authors"] = toRaw(this.article.authors.join(", "));
+        this.article["authors"] = this.article.authors.join(", ");
         this.loaded = true;
       } else {
         this.pageExists = false;
@@ -86,10 +71,16 @@ export default {
         method: "GET",
         query: {
           id: this.$route.params.id,
+          paper_type: "published",
         },
       });
 
-      console.log(download);
+      const link = document.createElement("a");
+      const href = URL.createObjectURL(download.data.value);
+      link.href = href;
+      link.target = "_blank";
+      link.click();
+      URL.revokeObjectURL(href);
     },
   },
 
@@ -102,7 +93,7 @@ export default {
   computed: {},
 
   mounted() {
-    setTimeout(this.reqPaper, 10);
+    setTimeout(this.reqPaper, 1);
   },
 };
 </script>

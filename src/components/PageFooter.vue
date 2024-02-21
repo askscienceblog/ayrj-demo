@@ -24,8 +24,6 @@
         class="flex-item-center mx-5"
         color="#eeeeee"
       >
-        <p class="text-h5 text-center font-weight-bold">About Us</p>
-
         <div v-for="page in pages" class="text-center">
           <v-btn variant="text">
             <a
@@ -43,25 +41,23 @@
       <!-- Form -->
       <v-sheet class="flex-item-center mx-5" color="#00000000">
         <p class="font-weight-bold ml-6">
-          Join our newsletter. No spam. Just Knowledge
+          Join our newsletter. No spam. Just Knowledge.
         </p>
 
         <v-sheet min-width="380" class="my-6 ml-6" color="#00000000">
           <v-form>
-            <p class="font-weight-bold my-3">First Name:</p>
             <v-text-field
               variant="outlined"
               :rules="rules"
               v-model="firstName"
-              label="Your First Name"
+              label="First Name"
             ></v-text-field>
 
-            <p class="font-weight-bold my-3">Email Address:</p>
             <v-text-field
               variant="outlined"
               :rules="rules"
               v-model="emailAddress"
-              label="Your Email Address"
+              label="Email Address"
             ></v-text-field>
 
             <v-sheet width="100" class="mt-n1"
@@ -74,30 +70,15 @@
   </v-sheet>
 
   <!-- "s" Devices -->
-  <!-- <v-sheet color="#eeeeee" v-if="device === 's'"> -->
-  <!-- Logo -->
-  <!-- <img
-      class="s-footer-logo"
-      style="
-        position: relative;
-        top: 60%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      "
-      src="/public/logo.png"
-    />
-  </v-sheet>
-
-  <v-divider
-    horizontal
-    class="border-opacity-100"
-    v-if="device === 's'"
-  ></v-divider> -->
 
   <!-- About Us -->
-  <v-sheet color="#eeeeee" width="100%" height="300" v-if="device === 's'">
-    <p class="text-h5 text-center font-weight-bold mt-12">About Us</p>
-
+  <v-sheet
+    color="#eeeeee"
+    width="100%"
+    height="300"
+    class="py-11"
+    v-if="device === 's'"
+  >
     <div v-for="page in pages" class="text-center">
       <v-btn variant="text">
         <a
@@ -130,25 +111,23 @@
       max-width="400px"
     >
       <p class="font-weight-bold ml-6 text-wrap">
-        Join our newsletter. No spam. Just Knowledge
+        Join our newsletter. No spam. Just Knowledge.
       </p>
 
       <v-sheet width="300px" class="my-6 mx-auto" color="#00000000">
         <v-form>
-          <p class="font-weight-bold my-3">First Name:</p>
           <v-text-field
             variant="outlined"
             :rules="rules"
             v-model="firstName"
-            label="Your First Name"
+            label="First Name"
           ></v-text-field>
 
-          <p class="font-weight-bold my-3">Email Address:</p>
           <v-text-field
             variant="outlined"
             :rules="rules"
             v-model="emailAddress"
-            label="Your Email Address"
+            label="Email Address"
           ></v-text-field>
 
           <v-sheet width="100" class="mx-auto"
@@ -201,14 +180,15 @@
 <script>
 export default {
   props: { device: String },
-  data: () => {
+  data() {
     return {
       pages: [
-        { title: "How we operate", href: "/about" },
-        { title: "Articles", href: "/articles/" },
-        { title: "Experiment Blog", href: "/blog" },
-        { title: "Contact Us", href: "/submit" },
-        { title: "Submit your manuscript", href: "/submit" },
+        { title: "Home", href: "/" },
+        { title: "Publications", href: "/publications/" },
+        { title: "Journals", href: "/journals" },
+        { title: "Submit manuscripts", href: "/submit" },
+        { title: "About AYRJ", href: "/about" },
+        { title: "Contact Us", href: "/contact" },
       ],
       rules: [
         (value) => {
